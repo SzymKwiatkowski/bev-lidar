@@ -23,10 +23,4 @@ BevLidar::BevLidar()
 {
 }
 
-int64_t BevLidar::foo(int64_t bar) const
-{
-  std::cout << "Hello World, " << bar << std::endl;
-  return bar;
-}
-
 }  // namespace bev_lidar

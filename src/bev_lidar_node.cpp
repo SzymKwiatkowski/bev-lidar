@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sensor_msgs/msg/point_cloud2.hpp>
+
+#include "bev_lidar/cloud_filter/cloud_filter.hpp"
 #include "bev_lidar/bev_lidar_node.hpp"
 
 namespace bev_lidar
@@ -40,7 +43,8 @@ BevLidarNode::BevLidarNode(const rclcpp::NodeOptions & options)
   std::string lidar_tf_frame;
   std::string camera_tf_frame;
 
-  bev_lidar_->foo(camera_fov_);
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_sub_;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_pub_;
 }
 
 }  // namespace bev_lidar

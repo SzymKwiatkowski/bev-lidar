@@ -27,7 +27,6 @@ class BEV_LIDAR_PUBLIC BevLidar
 {
 public:
   BevLidar();
-  int64_t foo(int64_t bar) const;
 };
 
 }  // namespace bev_lidar

@@ -18,6 +18,4 @@
 TEST(TestBevLidar, TestHello) {
   std::unique_ptr<bev_lidar::BevLidar> bev_lidar_ =
     std::make_unique<bev_lidar::BevLidar>();
-  auto result = bev_lidar_->foo(999);
-  EXPECT_EQ(result, 999);
 }

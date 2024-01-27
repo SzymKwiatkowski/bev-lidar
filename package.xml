@@ -10,28 +10,19 @@
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
   <depend>launch_ros</depend>
+  <depend>cv_bridge</depend>
+  <depend>libpcl-all-dev</depend>
+  <depend>pcl_conversions</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-
-  <build_depend>cv_bridge</build_depend>
-  <build_depend>image_transport</build_depend>
-  <build_depend>pcl_ros</build_depend>
-  <build_depend>rosbag</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>tf2_msgs</build_depend>
-  <build_depend>tf</build_depend>
-
-  <exec_depend>cv_bridge</exec_depend>
-  <exec_depend>image_transport</exec_depend>
-  <exec_depend>pcl_ros</exec_depend>
-  <exec_depend>rosbag</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
-  <exec_depend>tf</exec_depend>
-  <exec_depend>tf2_msgs</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
