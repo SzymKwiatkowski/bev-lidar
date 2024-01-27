@@ -35,6 +35,10 @@ BevLidarNode::BevLidarNode(const rclcpp::NodeOptions & options)
   v_res_ = this->declare_parameter("v_res", 0.4);
   max_expected_intensity_ = this->declare_parameter("max_expected_intensity", 1.0f);
   remove_floor_ = this->declare_parameter("remove_floor", false);
+  std::string cloud_topic;
+  std::string output_topic;
+  std::string lidar_tf_frame;
+  std::string camera_tf_frame;
 
   bev_lidar_->foo(camera_fov_);
 }

@@ -17,7 +17,7 @@
 
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
-
+#include <string>
 #include "bev_lidar/bev_lidar.hpp"
 
 namespace bev_lidar
@@ -37,16 +37,17 @@ private:
   double h_res_{0.0034889};
   double cell_size_{0.1};
   int ground_cell_span_{40};
-  double height_threshold_;
-  double max_height_;
-  double cell_size_height_map_;
-  int grid_dim_;
-  int grid_dim_height_map_;
-  int num_slices_;
-  bool remove_floor_;
-  double low_opening_;
-  double v_res_;
-  float max_expected_intensity_;
+  double height_threshold_{0.1};
+  double max_height_{3.0};
+  double cell_size_height_map_{0.25};
+  int grid_dim_{1000};
+  int grid_dim_height_map_{300};
+  int num_slices_{3};
+  bool remove_floor_{false};
+  double low_opening_{24.9};
+  double v_res_{0.4};
+  float max_expected_intensity_{1.0f};
+  
 };
 }  // namespace bev_lidar
 
