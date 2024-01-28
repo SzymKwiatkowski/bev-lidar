@@ -57,3 +57,7 @@ ros2 launch bev_lidar bev_lidar.launch.py
 <!-- Optional -->
 
 # TODO
+Things to do after this is working:
+- refactor of dependencies with proper arch
+- cleanup
+- adding launch files for launching specific functionality

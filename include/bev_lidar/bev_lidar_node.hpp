@@ -23,6 +23,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 
+#include "rclcpp/node.hpp"
 #include "bev_lidar/bev_lidar.hpp"
 #include "bev_lidar/cloud_filter/cloud_filter.hpp"
 
@@ -41,8 +42,14 @@ private:
   std::unique_ptr<image_transport::ImageTransport> image_transport_{nullptr};
   std::unique_ptr<image_transport::Publisher> bird_view_pub_{nullptr};
   std::unique_ptr<image_transport::Publisher> bird_ground_pub_{nullptr};
-  std::unique_ptr<rclcpp::Publisher<sensor_msgs::msg::PointCloud2>> ground_cloud_pub_{nullptr};
-  std::unique_ptr<rclcpp::Publisher<sensor_msgs::msg::PointCloud2>> cloud_pub_{nullptr};
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr ground_cloud_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_pub_;
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_sub_;
+  
+  // Trasform listener to get the TFs
+  std::shared_ptr<tf2_ros::TransformListener> tf_{nullptr};
+  std::unique_ptr<tf2_ros::Buffer> tfBuffer_;
+
   double camera_fov_{110.0};
   double intensity_threshold_{0.05};
   int16_t planes_{32};
@@ -59,7 +66,9 @@ private:
   double low_opening_{24.9};
   double v_res_{0.4};
   float max_expected_intensity_{1.0f};
-  
+  void cloud_callback(const sensor_msgs::msg::PointCloud2::SharedPtr cloud_msg) const;
+  /* Wait for the transform lidar -> camera and update velo_cam_transform_ */
+  void initTF(std::string lidar_frame, std::string camera_frame);
 };
 }  // namespace bev_lidar
 

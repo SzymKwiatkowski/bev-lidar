@@ -351,36 +351,6 @@ void CloudFilter::filterIntensities(double intensity_threshold){
     cloud_ptr_->width = cloud_ptr_->points.size();
 }
 
-
-/* Wait for the transform lidar -> camera and update velo_cam_transform_ */
-void CloudFilter::initTF(std::string lidar_frame, std::string camera_frame){
-    // if (!tf_) tf_ = new tf2_ros::TransformListener;
-    bool tf_error = true;
-    while(tf_error)
-    {
-        try
-        {
-          geometry_msgs::msg::TransformStamped velo_cam_transform_msg;
-          velo_cam_transform_msg = tfBuffer_->lookupTransform(lidar_frame, camera_frame, tf2::TimePointZero);
-          tf2::fromMsg(velo_cam_transform_msg, velo_cam_transform_);
-          
-          // tf_->waitForTransform("base_footprint", lidar_frame, ros::Time(0), ros::Duration(5));
-          geometry_msgs::msg::TransformStamped base_velo_transform_msg;
-          base_velo_transform_msg = tfBuffer_->lookupTransform("base_footprint", lidar_frame, tf2::TimePointZero);
-          tf2::fromMsg(base_velo_transform_msg, base_velo_transform_);
-          tf_error = false;
-        }
-        catch (tf2::TransformException ex)
-        {
-            // RCLCPP_INFO(
-            // this->get_logger(), "Could not transform %s to %s: %s",
-            // toFrameRel.c_str(), fromFrameRel.c_str(), ex.what());
-            //throw (ex);
-        }
-    }
-    std::cout << "New transform: " << velo_cam_transform_.getOrigin().x() << ", " << velo_cam_transform_.getOrigin().y() << std::endl;
-}
-
 void CloudFilter::setVeloToCamTransform(tf2::Stamped<tf2::Transform> velo_cam_transform){
     velo_cam_transform_ = velo_cam_transform;
 }
@@ -388,7 +358,6 @@ void CloudFilter::setVeloToCamTransform(tf2::Stamped<tf2::Transform> velo_cam_tr
 void CloudFilter::setVeloToBaseTransform(tf2::Stamped<tf2::Transform> base_velo_transform){
     base_velo_transform_ = base_velo_transform;
 }
-
 
 void CloudFilter::initMaxPointsMap(int grid_dim, float cell_size, float z_min, float z_max, int num_slices, int planes,
                                    float low_angle, float h_res, float v_res){

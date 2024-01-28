@@ -27,10 +27,11 @@
 
 #include "pcl/point_types.h"
 #include "pcl/filters/voxel_grid.h"
-#include <geometry_msgs/msg/transform_stamped.hpp>
+#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "tf2/transform_datatypes.h"
-#include <tf2_ros/transform_listener.h>
-#include <tf2_ros/buffer.h>
+#include "tf2/exceptions.h"
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/buffer.h"
 
 #include "bev_lidar/visibility_control.hpp"
 
@@ -64,9 +65,6 @@ public:
     /* Remove all points below the given intensity threshold */
     void filterIntensities(double intensity_threshold);
 
-    /* Wait for the transform lidar -> camera and update velo_cam_transform_ */
-    void initTF(std::string lidar_frame, std::string camera_frame);
-
     /* Manually set tf transforms */
     void setVeloToCamTransform(tf2::Stamped<tf2::Transform> velo_cam_transform);
     void setVeloToBaseTransform(tf2::Stamped<tf2::Transform> base_velo_transform);
@@ -86,9 +84,6 @@ public:
     tf2::Stamped<tf2::Transform> velo_cam_transform_;
     // Transform between the veloyne and the camera. Needed to know the height
     tf2::Stamped<tf2::Transform> base_velo_transform_;
-    // Trasform listener to get the TFs
-    std::shared_ptr<tf2_ros::TransformListener> tf_;
-    std::shared_ptr<tf2_ros::Buffer> tfBuffer_;
 
     // Float storing max expected intensity value on input pointcloud
     float max_expected_intensity_;
