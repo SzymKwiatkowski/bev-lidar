@@ -9,18 +9,18 @@ import math
 import numpy as np
 from numpy.linalg import inv
 import cv2
-import tf
+import tf2
 import message_filters
 from sensor_msgs.msg import Image, CameraInfo
 from perception_msgs.msg import ObstacleList
 from cv_bridge import CvBridge, CvBridgeError
-from perception_msgs._classes import CLASSES, CLASS_COLOR, CLASS_THRESHOLDS
+from perception_msgs.classes import CLASSES, CLASS_COLOR, CLASS_THRESHOLDS
 
 bvres = 0.05
 only_front = False
 is_kitti_gt = False
 
-listener = tf.TransformListener()
+listener = tf2.TransformListener()
 
 def _project_obstacle_to_cam(obs, P2_full):
 
@@ -117,7 +117,7 @@ def callback(obstaclelist, bird_view, image_color=None, cinfo_msg=None):
         listener.waitForTransform(camera_tf_frame, lidar_tf_frame, rospy.Time(0), rospy.Duration(5.0))
         (trans, rot) = listener.lookupTransform(camera_tf_frame, lidar_tf_frame, rospy.Time(0))
     except (tf.LookupException, tf.ConnectivityException) as e:
-        print e
+        print (e)
         pass
 
     # numpy arrays to 4x4 transform matrix
@@ -131,7 +131,7 @@ def callback(obstaclelist, bird_view, image_color=None, cinfo_msg=None):
         P2 = np.array(cinfo_msg.P).reshape(-1, 4)
         P2_full = np.dot(P2, v2cam)
 
-    print 'trans {} '.format(trans_mat)
+    print ('trans {} '.format(trans_mat))
 
     for obj in obstaclelist.obstacles:
         # Filter detections with a very low score
@@ -183,7 +183,7 @@ def callback(obstaclelist, bird_view, image_color=None, cinfo_msg=None):
                 rgb_p1, rgb_p2 = _project_obstacle_to_cam(obj, P2_full)
                 cv2.rectangle(rgb_draw, rgb_p1, rgb_p2, (color[2], color[1], color[0]), 2)
         except ValueError:
-            print 'WARNING. Unknown class \'{}\'. Object ignored'.format(obj.kind_name)
+            print ('WARNING. Unknown class \'{}\'. Object ignored'.format(obj.kind_name))
 
     # cv2.imshow('BEV', bv_image)
     # cv2.imshow('BEV detections', draw)

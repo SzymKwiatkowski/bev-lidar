@@ -181,8 +181,8 @@ class BirdviewDetectionRefiner:
     def _get_true_h(self, H, w, yaw):
         yaw -= math.pi / 2
 
-        print w * math.sin(yaw)
-        print H * math.cos(yaw)
+        print (w * math.sin(yaw))
+        print (H * math.cos(yaw))
         # TODO: Fix this workarounds
         if abs(math.cos(yaw)) < 0.01:
             return H

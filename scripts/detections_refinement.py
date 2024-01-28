@@ -3,7 +3,7 @@
 # detections_refinement.py: Node for online refinement of detections (BirdNet 1 only)
 
 import sys
-import rospy
+import rclpy
 import datetime
 import math
 import numpy as np
@@ -18,14 +18,14 @@ from cv_bridge import CvBridge, CvBridgeError
 from birdview_detection_refiner import BirdviewDetectionRefiner
 from perception_msgs._classes import CLASSES, CLASS_COLOR, CLASS_THRESHOLDS
 
-refined_pub = rospy.Publisher('/refined_obstacle_list', ObstacleList, queue_size=1)
+refined_pub = rclpy.Publisher('/refined_obstacle_list', ObstacleList, queue_size=1)
 
 bvres = 0.05
 lidar_h = 1.73 # TODO Change to use TF
 only_front = False
 count = 0
 ms = 0
-velo_pub = rospy.Publisher('velo_sync', PointCloud2, queue_size=1)
+velo_pub = rclpy.Publisher('velo_sync', PointCloud2, queue_size=1)
 
 
 def callback(obstaclelist, bird_view, bird_ground, velo_cloud):
@@ -68,7 +68,7 @@ def callback(obstaclelist, bird_view, bird_ground, velo_cloud):
 
     ms += delta.microseconds
     count += 1
-    print 'average ms: {}'.format(ms / count / 1000.0)
+    print ('average ms: {}'.format(ms / count / 1000.0))
 
 
 def main(args):
@@ -84,7 +84,7 @@ def main(args):
     lidar_tf_frame = rospy.get_param("~lidar_tf_frame", 'velodyne')
     camera_tf_frame = rospy.get_param("~camera_tf_frame", 'stereo_camera')
     only_front = rospy.get_param("~only_front", False)
-    print 'Using only front part of BEV: {}'.format(only_front)
+    print ('Using only front part of BEV: {}'.format(only_front))
 
     velo_topic = '/velodyne_points'
 
