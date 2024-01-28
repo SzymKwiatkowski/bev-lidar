@@ -1,3 +1,21 @@
 /**:
   ros__parameters:
-    param_name: 789
+    camera_fov: 110.0
+    intensity_threshold: 0.05
+    planes: 32
+    h_res: 0.0034889
+    cell_size: 0.1
+    ground_cell_span: 40
+    cell_size_height_map: 0.25
+    height_threshold: 0.1
+    max_height: 3.0
+    grid_dim: 1000
+    low_opening: 24.9
+    v_res: 0.4
+    max_expected_intensity: 1.0
+    remove_floor: false
+    cloud_topic: "/kitti/velo/pointcloud"
+    output_topic: filtered_cloud
+    lidar_tf_frame: /velo_link
+    camera_tf_frame: /camera_color_left
+    

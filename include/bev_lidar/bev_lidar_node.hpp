@@ -18,7 +18,13 @@
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
 #include <string>
+#include "cv_bridge/cv_bridge.h"
+#include "image_transport/image_transport.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "sensor_msgs/msg/point_cloud2.hpp"
+
 #include "bev_lidar/bev_lidar.hpp"
+#include "bev_lidar/cloud_filter/cloud_filter.hpp"
 
 namespace bev_lidar
 {
@@ -31,6 +37,12 @@ public:
 
 private:
   BevLidarPtr bev_lidar_{nullptr};
+  std::unique_ptr<cloud_filter::CloudFilter> cloud_filter_{nullptr};
+  std::unique_ptr<image_transport::ImageTransport> image_transport_{nullptr};
+  std::unique_ptr<image_transport::Publisher> bird_view_pub_{nullptr};
+  std::unique_ptr<image_transport::Publisher> bird_ground_pub_{nullptr};
+  std::unique_ptr<rclcpp::Publisher<sensor_msgs::msg::PointCloud2>> ground_cloud_pub_{nullptr};
+  std::unique_ptr<rclcpp::Publisher<sensor_msgs::msg::PointCloud2>> cloud_pub_{nullptr};
   double camera_fov_{110.0};
   double intensity_threshold_{0.05};
   int16_t planes_{32};

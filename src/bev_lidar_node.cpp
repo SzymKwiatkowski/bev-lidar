@@ -24,6 +24,7 @@ BevLidarNode::BevLidarNode(const rclcpp::NodeOptions & options)
 :  Node("bev_lidar", options)
 {
   bev_lidar_ = std::make_unique<bev_lidar::BevLidar>();
+  cloud_filter_ = std::make_unique<cloud_filter::CloudFilter>();
   camera_fov_ = this->declare_parameter("camera_fov", 110.0);
   intensity_threshold_ = this->declare_parameter("intensity_threshold", 0.05);
   planes_ = this->declare_parameter("planes", 32);
@@ -39,9 +40,13 @@ BevLidarNode::BevLidarNode(const rclcpp::NodeOptions & options)
   max_expected_intensity_ = this->declare_parameter("max_expected_intensity", 1.0f);
   remove_floor_ = this->declare_parameter("remove_floor", false);
   std::string cloud_topic;
+  cloud_topic = this->declare_parameter("cloud_topic", "/kitti/velo/pointcloud");
   std::string output_topic;
+  output_topic = this->declare_parameter("output_topic", "filtered_cloud");
   std::string lidar_tf_frame;
+  lidar_tf_frame = this->declare_parameter("lidar_tf_frame", "/velo_link");
   std::string camera_tf_frame;
+  camera_tf_frame = this->declare_parameter("camera_tf_frame", "/camera_color_left");
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_sub_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_pub_;
