@@ -30,6 +30,20 @@ rclcpp_components_register_node(${PROJECT_NAME}_node
   EXECUTABLE ${PROJECT_NAME}_node_exe
 )
 
+ament_auto_add_library(${PROJECT_NAME}_offline_node SHARED
+  include/bev_lidar/bev_lidar_offline_node.hpp
+  src/bev_lidar_offline_node.cpp
+)
+
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
+rclcpp_components_register_node(${PROJECT_NAME}_offline_node
+  PLUGIN "bev_lidar::BevLidarOfflineNode"
+  EXECUTABLE ${PROJECT_NAME}_offline_node_exe
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
